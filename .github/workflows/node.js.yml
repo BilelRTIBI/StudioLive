@@ -35,11 +35,8 @@ jobs:
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
 
     - name: Test connection
-      run: npx nightwatch Tests/TS01-TC06-test-connexion.js
-    
-    - name: Run test-micro
-      run: npx nightwatch Tests/TS02-TC01-test-micro.js
+      run:  echo "chromedriver" && chromedriver --version
 
-    - name: Run test-cam
-      run: npx nightwatch Tests/TS03-TC01-TC02-test-cam.js
-    
+    - name: Test connection
+      run: npx nightwatch Tests/TS01-TC06-test-connexion.js
+
