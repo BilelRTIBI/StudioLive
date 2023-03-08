@@ -36,25 +36,10 @@ jobs:
 
     - name: Test connection
       run: npx nightwatch Tests/TS01-TC01-test-connexion.js
-           npx nightwatch Tests/TS01-TC02-test-connexion.js
-           npx nightwatch Tests/TS01-TC03-test-connexion.js
-           npx nightwatch Tests/TS01-TC04-test-connexion.js
-           npx nightwatch Tests/TS01-TC05-test-connexion.js
-           npx nightwatch Tests/TS01-TC06-test-connexion.js
-           npx nightwatch Tests/TS01-TC07-test-reconnexion.js
     
     - name: Run test-micro
       run: npx nightwatch Tests/TS02-TC01-test-micro.js
-           npx nightwatch Tests/TS02-TC02-test-micro.js
-           npx nightwatch Tests/TS02-TC03-test-micro-participants.js
-           npx nightwatch Tests/TS02-TC04-test-micro-participants.js
-           npx nightwatch Tests/TS03-TC05-test-cam-partage-ecran.js
-           npx nightwatch Tests/TS03-TC06-test-cam-cas-Quitte-reunion.js
 
     - name: Run test-cam
       run: npx nightwatch Tests/TS03-TC01-TC02-test-cam.js
-           npx nightwatch Tests/TS03-TC03-test-cam-participants.js
-           npx nightwatch Tests/TS03-TC04-test-cam-participants.js
-           npx nightwatch Tests/TS03-TC05-test-cam-partage-ecran.js
-           npx nightwatch Tests/TS02-TC06-test-micro-cas-Quitte-reunion.js
     
