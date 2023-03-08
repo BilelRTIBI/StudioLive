@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: node:14
+    runs-on: node-14
 
     strategy:
       matrix:
