@@ -22,21 +22,21 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-      - name: Install sudo
-        run: |
+    - name: Install sudo
+      run: |
           apt-get update 
           apt-get install -y sudo
 
-      - name: Update apt-get
-        run: sudo apt-get update
+    - name: Update apt-get
+      run: sudo apt-get update
 
-      - name: Install curl, gnupg, xvfb and libnss3
-        run: |
+    - name: Install curl, gnupg, xvfb and libnss3
+      run: |
           apt-get update -q -y 
           apt-get install -yq curl gnupg xvfb libnss3
 
-      - name: Install Google Chrome
-        run: |
+    - name: Install Google Chrome
+      run: |
           apt-get update 
           apt-get install -y sudo wget xvfb 
           wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - 
@@ -44,14 +44,14 @@ jobs:
           apt-get update 
           apt-get --yes install google-chrome-stable
 
-      - name: Install dependencies
-        run: |
+    - name: Install dependencies
+      run: |
           npm install 
           npm install nightwatch 
           npm install chromedriver@110.0.0
           
-      - name: Start Xvfb
-        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
-        
-      - name: Run Nightwatch tests
-        run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+    - name: Start Xvfb
+      run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+
+    - name: Run Nightwatch tests
+      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
