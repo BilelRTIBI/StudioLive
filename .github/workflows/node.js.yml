@@ -22,36 +22,41 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install sudo
+    - name: Install dependencies
       run: |
-          apt-get update 
-          apt-get install -y sudo
-
-    - name: Update apt-get
-      run: sudo apt-get update
-
-    - name: Install curl, gnupg, xvfb and libnss3
-      run: |
-          apt-get update -q -y 
-          apt-get install -yq curl gnupg xvfb libnss3
+          apt-get update -q -y
+          apt-get --yes install xvfb
+          npm init -y
+          npm install nightwatch
 
     - name: Install Google Chrome
       run: |
-          apt-get update 
-          apt-get install -y sudo wget xvfb 
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - 
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list 
-          apt-get update 
-          apt-get --yes install google-chrome-stable
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub |  apt-key add -
+          sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          apt-get update -q -y
+          apt-get -y install google-chrome-stable 
 
-    - name: Install dependencies
-      run: |
-          npm install 
-          npm install nightwatch 
-          npm install chromedriver@110.0.0
-          
+    - name: Install Chromedriver
+      run:
+          npm install chromedriver@110
+
     - name: Start Xvfb
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+
+    - name: Test verification1
+      run:  echo "google-chrome" && google-chrome --version
+
+    - name: Test verification2
+      run:  echo "chromedriver" && chromedriver --version
+
+    - name: Test verification3
+      run:  echo "npm" && npm --version
+
+    - name: Test verification4
+      run:  echo "node" && node --version
+
+    - name: Test verification5
+      run:  echo "nightwatch" && nightwatch --version
 
     - name: Run Nightwatch tests
       run: npx nightwatch Tests/TS01-TC01-test-connexion.js
