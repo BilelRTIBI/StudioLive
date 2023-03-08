@@ -34,8 +34,13 @@ jobs:
     - name: Start Xvfb
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
 
-    - name: Test connection
-      run:  echo "chromedriver" && chromedriver --version
+    - name: Test verification
+      run:  echo "google-chrome" && google-chrome --version
+            echo "chromedriver" && chromedriver --version
+            echo "npm" && npm --version
+            echo "nightwatch" && nightwatch --version
+            echo "node" && node --version
+
 
     - name: Test connection
       run: npx nightwatch Tests/TS01-TC06-test-connexion.js
