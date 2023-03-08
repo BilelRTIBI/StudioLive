@@ -6,48 +6,52 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: node:14
 
     strategy:
       matrix:
         node-version: [14.x] 
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Install Chrome and ChromeDriver
+    - name: Install dependencies sudo
       run: |
+        apt-get update && \
+        apt-get install -y sudo  && \
         sudo apt-get update
-        sudo apt-get --yes install xvfb google-chrome-stable
+
+    - name: Install dependencies packages
+      run: |
+        apt-get update && \
+        apt-get install -yq curl gnupg  && \
+        apt-get install -y xvfb  && \
+        apt-get install -y libnss3
+
+
+
+    - name: Install Chrome 
+      run: |
+        apt-get update && \
+        apt-get install -y sudo wget && \
+        apt-get update && \
+        apt-get install -y xvfb && \
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
+        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+        apt-get update && \
+        apt-get --yes install google-chrome-stable
+
+
+    - name: install npm
+      run: npm install 
+    - name: install nightwatch
+      run: npm install nightwatch
+
+    - name: Install Chromedriver 
+      run: |
         npm uninstall -g chromedriver
         npm install chromedriver@110.0.0
 
     - name: Start Xvfb
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
-
-    - name: Test verification1
-      run:  echo "google-chrome" && google-chrome --version
-
-    - name: Test verification2
-      run:  echo "chromedriver" && chromedriver --version
-
-    - name: Test verification3
-      run:  echo "npm" && npm --version
-
-    - name: Test verification4
-      run:  echo "node" && node --version
-
-    - name: Test verification5
-      run:  echo "nightwatch" && nightwatch --version
 
     - name: Test connection
       run: npx nightwatch Tests/TS01-TC06-test-connexion.js
