@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18]
 
     steps:
     - name: Checkout code
@@ -23,11 +23,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: |
-          apt-get update -q -y
-          apt-get --yes install xvfb
-          npm init -y
-          npm install nightwatch
+      run: apt-get update -q -y
+      run: apt-get --yes install xvfb
+      run: npm init -y
+      run: npm install nightwatch
 
     - name: Install Google Chrome
       run: |
