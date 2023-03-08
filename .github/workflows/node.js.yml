@@ -44,7 +44,7 @@ jobs:
       run:  echo "npm" && npm --version
 
     - name: Test verification4
-      run:  echo "node" && google-chrome --version
+      run:  echo "node" && node --version
 
     - name: Test verification5
       run:  echo "nightwatch" && nightwatch --version
