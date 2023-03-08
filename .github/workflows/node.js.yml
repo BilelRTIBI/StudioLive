@@ -36,12 +36,16 @@ jobs:
 
     - name: Test verification1
       run:  echo "google-chrome" && google-chrome --version
+
     - name: Test verification2
       run:  echo "chromedriver" && chromedriver --version
+
     - name: Test verification3
       run:  echo "npm" && npm --version
+
     - name: Test verification4
       run:  echo "node" && google-chrome --version
+      
     - name: Test verification5
       run:  echo "nightwatch" && nightwatch--version
 
