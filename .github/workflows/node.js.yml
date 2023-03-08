@@ -1,58 +1,37 @@
-name: Node.js CI
+image: node:14
 
-on:
-  push:
-    branches: [main]
+stages:
+  - Build
+  - Test Connexion 
 
-jobs:
-  build:
-    runs-on: node-14
+cache:
+  paths:
+    - node_modules/
 
-    strategy:
-      matrix:
-        node-version: [14.x] 
+Build:
+  stage: Build
+  script:
+    - apt-get update 
+    - apt-get install -y sudo
+    - sudo apt-get update
+    - apt-get update -q -y
+    - apt-get install -yq curl gnupg
+    - apt-get install -y xvfb
+    - apt-get install -y libnss3
+    - apt-get update
+    - apt-get install -y sudo wget
+    - apt-get update
+    - apt-get install -y xvfb
+    - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+    - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update
+    - apt-get --yes install google-chrome-stable
+    - npm install
+    - npm install nightwatch
+    - npm install chromedriver@110.0.0
+    - Xvfb -ac :99 -screen 0 1280x1024x16 &
 
-
-    - name: Install dependencies sudo
-      run: |
-        apt-get update && \
-        apt-get install -y sudo  && \
-        sudo apt-get update
-
-    - name: Install dependencies packages
-      run: |
-        apt-get update && \
-        apt-get install -yq curl gnupg  && \
-        apt-get install -y xvfb  && \
-        apt-get install -y libnss3
-
-
-
-    - name: Install Chrome 
-      run: |
-        apt-get update && \
-        apt-get install -y sudo wget && \
-        apt-get update && \
-        apt-get install -y xvfb && \
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
-        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-        apt-get update && \
-        apt-get --yes install google-chrome-stable
-
-
-    - name: install npm
-      run: npm install 
-    - name: install nightwatch
-      run: npm install nightwatch
-
-    - name: Install Chromedriver 
-      run: |
-        npm uninstall -g chromedriver
-        npm install chromedriver@110.0.0
-
-    - name: Start Xvfb
-      run: Xvfb -ac :99 -screen 0 1280x1024x16 &
-
-    - name: Test connection
-      run: npx nightwatch Tests/TS01-TC06-test-connexion.js
-
+Test:
+  stage: Test
+  script:
+    - npx nightwatch Tests/TS01-TC01-test-connexion.js
