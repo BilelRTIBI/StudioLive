@@ -45,9 +45,9 @@ jobs:
 
     - name: Test verification4
       run:  echo "node" && google-chrome --version
-      
+
     - name: Test verification5
-      run:  echo "nightwatch" && nightwatch--version
+      run:  echo "nightwatch" && nightwatch --version
 
     - name: Test connection
       run: npx nightwatch Tests/TS01-TC06-test-connexion.js
