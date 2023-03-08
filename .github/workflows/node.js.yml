@@ -20,6 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm install
+           npm install nightwatch 
     - name: Install Google Chrome
       run: |
         sudo apt-get update
