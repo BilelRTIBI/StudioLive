@@ -35,7 +35,7 @@ jobs:
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
 
     - name: Test connection
-      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+      run: npx nightwatch Tests/TS01-TC06-test-connexion.js
     
     - name: Run test-micro
       run: npx nightwatch Tests/TS02-TC01-test-micro.js
