@@ -1,45 +1,60 @@
-name: Build and Test
+name: Node.js CI
+
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node-version: [ '14.x' ]
+        node-version: [14.x] 
+
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
-    - name: Setup Node.js ${{ matrix.node-version }}
+
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: Install dependencies
       run: npm install
-           npm install nightwatch 
-    - name: Install Google Chrome
+
+    - name: Install Chrome and ChromeDriver
       run: |
         sudo apt-get update
         sudo apt-get --yes install xvfb google-chrome-stable
-    - name: Install ChromeDriver
-      run:  npm uninstall -g chromedriver
-            npm install chromedriver@110
-    - name: Set up virtual display
-      run: |
-        sudo apt-get update -q -y
-        sudo apt-get --yes install xvfb
-        Xvfb -ac :99 -screen 0 1280x1024x16 &
-        export DISPLAY=:99
+        npm uninstall -g chromedriver
+        npm install chromedriver@110.0.0
 
-    - name: Run test-connexion
+    - name: Start Xvfb
+      run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+
+    - name: Test connection
       run: npx nightwatch Tests/TS01-TC01-test-connexion.js
- 
+           npx nightwatch Tests/TS01-TC02-test-connexion.js
+           npx nightwatch Tests/TS01-TC03-test-connexion.js
+           npx nightwatch Tests/TS01-TC04-test-connexion.js
+           npx nightwatch Tests/TS01-TC05-test-connexion.js
+           npx nightwatch Tests/TS01-TC06-test-connexion.js
+           npx nightwatch Tests/TS01-TC07-test-reconnexion.js
+    
     - name: Run test-micro
       run: npx nightwatch Tests/TS02-TC01-test-micro.js
+           npx nightwatch Tests/TS02-TC02-test-micro.js
+           npx nightwatch Tests/TS02-TC03-test-micro-participants.js
+           npx nightwatch Tests/TS02-TC04-test-micro-participants.js
+           npx nightwatch Tests/TS03-TC05-test-cam-partage-ecran.js
+           npx nightwatch Tests/TS03-TC06-test-cam-cas-Quitte-reunion.js
 
     - name: Run test-cam
       run: npx nightwatch Tests/TS03-TC01-TC02-test-cam.js
+           npx nightwatch Tests/TS03-TC03-test-cam-participants.js
+           npx nightwatch Tests/TS03-TC04-test-cam-participants.js
+           npx nightwatch Tests/TS03-TC05-test-cam-partage-ecran.js
+           npx nightwatch Tests/TS02-TC06-test-micro-cas-Quitte-reunion.js
+    
