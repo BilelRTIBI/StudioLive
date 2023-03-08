@@ -1,37 +1,41 @@
-image: node:14
+name: Nightwatch CI
 
-stages:
-  - Build
-  - Test Connexion 
+on:
+  push:
+    branches:
+      - main
 
-cache:
-  paths:
-    - node_modules/
-
-Build:
-  stage: Build
-  script:
-    - apt-get update 
-    - apt-get install -y sudo
-    - sudo apt-get update
-    - apt-get update -q -y
-    - apt-get install -yq curl gnupg
-    - apt-get install -y xvfb
-    - apt-get install -y libnss3
-    - apt-get update
-    - apt-get install -y sudo wget
-    - apt-get update
-    - apt-get install -y xvfb
-    - wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-    - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-    - apt-get update
-    - apt-get --yes install google-chrome-stable
-    - npm install
-    - npm install nightwatch
-    - npm install chromedriver@110.0.0
-    - Xvfb -ac :99 -screen 0 1280x1024x16 &
-
-Test:
-  stage: Test
-  script:
-    - npx nightwatch Tests/TS01-TC01-test-connexion.js
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x] 
+    steps:
+      - name: Install sudo
+        run: |
+          apt-get update && \
+          apt-get install -y sudo
+      - name: Update apt-get
+        run: sudo apt-get update
+      - name: Install curl, gnupg, xvfb and libnss3
+        run: |
+          apt-get update -q -y && \
+          apt-get install -yq curl gnupg xvfb libnss3
+      - name: Install Google Chrome
+        run: |
+          apt-get update && \
+          apt-get install -y sudo wget xvfb && \
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+          apt-get update && \
+          apt-get --yes install google-chrome-stable
+      - name: Install dependencies
+        run: |
+          npm install && \
+          npm install nightwatch && \
+          npm install chromedriver@110.0.0
+      - name: Start Xvfb
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+      - name: Run Nightwatch tests
+        run: npx nightwatch Tests/TS01-TC01-test-connexion.js
