@@ -27,16 +27,16 @@ module.exports = {
       proxy: undefined,
       cli_args: 
       [
-        //'--no-sandbox',
-        //'--disable-dev-shm-usage',
-        //'--headless',
-       // '--disable-gpu',
-       // '--verbose',
-      //  "--window-size=1024x768",
-       // '--start-maximized',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--headless',
+        '--disable-gpu',
+        '--verbose',
+        "--window-size=1024x768",
+        '--start-maximized',
   
-      //  "--use-fake-device-for-media-stream",
-      //  "--use-fake-ui-for-media-stream",
+        "--use-fake-device-for-media-stream",
+        "--use-fake-ui-for-media-stream",
       ] ,
     },
     
@@ -67,13 +67,13 @@ module.exports = {
   
             w3c: true,
             args: [
-              //"--no-sandbox",
-              //'--disable-dev-shm-usage',
-              //'--headless',
-              //'--disable-gpu',
-             // "--window-size=1024x768",
-             // "--use-fake-device-for-media-stream",
-             // "--use-fake-ui-for-media-stream",
+              "--no-sandbox",
+              '--disable-dev-shm-usage',
+              '--headless',
+              '--disable-gpu',
+              "--window-size=1024x768",
+              "--use-fake-device-for-media-stream",
+              "--use-fake-ui-for-media-stream",
             ]
           }
         },
