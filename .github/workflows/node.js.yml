@@ -28,6 +28,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get --yes install xvfb google-chrome-stable
+        npm uninstall -g chromedriver
         npm install chromedriver@110.0.0
 
     - name: Start Xvfb
