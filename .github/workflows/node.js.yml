@@ -42,20 +42,5 @@ jobs:
       - name: Export display
         run: export DISPLAY=:99
 
-  test-connexion:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
       - name: Test Connexion
         run: npx nightwatch Tests/TS01-TC01-test-connexion.js
