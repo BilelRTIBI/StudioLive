@@ -38,6 +38,10 @@ jobs:
       run:
           npm install chromedriver@110.0.0
 
+    - name: Install npm
+      run:
+          npm install 
+
     - name: Start Xvfb
       run: Xvfb -ac :99 -screen 0 1280x1024x16 &
 
