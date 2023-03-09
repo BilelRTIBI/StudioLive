@@ -42,6 +42,9 @@ jobs:
       - name: Export display
         run: export DISPLAY=:99
 
+      - name: Run test-connexion
+        run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+  
   test-connexion:
     needs: build
     runs-on: ubuntu-latest
@@ -59,4 +62,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         
     - name: Run test-connexion
-      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+      run: npx nightwatch Tests/TS01-TC02-test-connexion.js
+    
