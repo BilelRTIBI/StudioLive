@@ -14,7 +14,6 @@ module.exports = {
         .click('button[class=Settings__btnRejoindre]')
         .pause(5000)
         .waitForElementVisible('.Settings__err-msg')
-        //////////////////////////////////
         .pause(3000)
         .end()
 
