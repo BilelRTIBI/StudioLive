@@ -22,8 +22,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies-2
-      run: apt-get --yes install xvfb
     - name: Install dependencies-3
       run: npm init -y
     - name: Install dependencies-4
