@@ -22,10 +22,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
+    - name: Install dependencies-1
       run: apt-get update -q -y
+    - name: Install dependencies-2
       run: apt-get --yes install xvfb
+    - name: Install dependencies-3
       run: npm init -y
+    - name: Install dependencies-4
       run: npm install nightwatch
 
     - name: Install Google Chrome
