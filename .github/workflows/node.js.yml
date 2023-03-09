@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [14]
 
     steps:
     - name: Checkout code
@@ -22,8 +22,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Install dependencies-1
+      run: apt-get update -q -y
+
+    - name: Install dependencies-2
+      run: apt-get --yes install xvfb
+
     - name: Install dependencies-3
       run: npm init -y
+      
     - name: Install dependencies-4
       run: npm install nightwatch
 
@@ -33,7 +40,6 @@ jobs:
           sudo apt-get --yes install xvfb google-chrome-stable
           npm uninstall -g chromedriver
           npm install chromedriver@110.0.0
-
     - name: Install Chromedriver
       run:
           npm install chromedriver@110.0.0
