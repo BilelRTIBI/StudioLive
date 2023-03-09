@@ -22,6 +22,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Install dependencies-1
+      run: |
+           apt-get update && \
+           apt-get install -y sudo
+
+    - name: Install dependencies-2
+      run: sudo apt-get update
+
     - name: Install dependencies-3
       run: npm init -y
 
@@ -30,8 +38,19 @@ jobs:
 
     - name: Install Google Chrome
       run: |
-          sudo apt-get update
-          sudo apt-get --yes install xvfb google-chrome-stable
+          apt-get update && \
+          apt-get install -y sudo wget
+
+      run: |
+          apt-get update && \
+          apt-get install -y xvfb
+
+      run: wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+      run: echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+
+      run: |
+          apt-get update && \
+          apt-get --yes install google-chrome-stable
 
     - name: Install Chromedriver
       run:
