@@ -45,12 +45,80 @@ jobs:
   test-connexion:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
-      - name: Run build step
-      - uses: owner/my-github-action@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-            my-arg: some-value
-        env:
-            MY_ENV_VAR: ${{ secrets.MY_SECRET }}
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install nightwatch
+
+      - name: Install Google Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
+          sudo apt-get update
+          sudo apt-get --yes install google-chrome-stable
+
+      - name: Install chromedriver
+        run: npm install chromedriver@110
+
+      - name: Start Xvfb
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+
+      - name: Export display
+        run: export DISPLAY=:99
+
       - name: Run test-connexion
         run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+  
+    test-connexion:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install nightwatch
+
+      - name: Install Google Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
+          sudo apt-get update
+          sudo apt-get --yes install google-chrome-stable
+
+      - name: Install chromedriver
+        run: npm install chromedriver@110
+
+      - name: Start Xvfb
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+
+      - name: Export display
+        run: export DISPLAY=:99
+        
+      - name: Run test-connexion
+        run: npx nightwatch Tests/TS01-TC02-test-connexion.js
+    
