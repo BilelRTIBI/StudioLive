@@ -46,7 +46,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Run reusable step
+      - name: Run build step
       - uses: owner/my-github-action@v1
         with:
             my-arg: some-value
