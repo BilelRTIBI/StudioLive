@@ -1,4 +1,4 @@
-name: Nightwatch CI
+name: Node.js CI
 
 on:
   push:
@@ -8,68 +8,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [14.x]
-
+        node-version: [16.x]
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies-2
-      run: sudo apt-get update
+      - name: Install Google Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
+          sudo apt-get update
+          sudo apt-get --yes install google-chrome-stable
 
-    - name: Install dependencies-3
-      run: npm init -y
+      - name: Install chromedriver
+        run: npm install chromedriver@110
 
-    - name: Install dependencies-4
-      run: npm install nightwatch
+      - name: Check versions
+        run: |
+          ./node_modules/.bin/chromedriver --version
+          ./node_modules/.bin/nightwatch --version
+          /usr/bin/google-chrome --version
 
-    - name: Install Google Chrome
-      run: |
-              sudo apt-get update 
-              sudo apt-get install -y sudo wget
+      - name: Start Xvfb
+        run: Xvfb -ac :99 -screen 0 1280x1024x16 &
+        
+      - name: Export display
+        run: export DISPLAY=:99
 
-              sudo apt-get update 
-              sudo apt-get install -y xvfb
-
-              sudo wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-              sudo echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-
-              sudo apt-get update 
-              sudo apt-get --yes install google-chrome-stable
-
-    - name: Install Chromedriver
-      run:
-          npm install chromedriver@110.0.0
-
-    - name: Install npm
-      run:
-          npm install 
-
-    - name: Start Xvfb
-      run: Xvfb -ac :99 -screen 0 1280x1024x16 &
-
-    - name: Test verification1
-      run:  echo "google-chrome" && google-chrome --version
-
-    - name: Test verification2
-      run:  echo "chromedriver" && chromedriver --version
-
-    - name: Test verification3
-      run:  echo "npm" && npm --version
-
-    - name: Test verification4
-      run:  echo "node" && node --version
-
-    - name: Test verification4
-      run:  echo "nightwatch" && nightwatch --version
-
-    - name: Run Nightwatch tests
-      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
+  test-connexion:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test Connexion
+        run: npx nightwatch Tests/TS01-TC01-test-connexion.js
