@@ -53,8 +53,5 @@ jobs:
     - name: Test verification4
       run:  echo "node" && node --version
 
-    - name: Test verification5
-      run:  echo "nightwatch" && nightwatch --version
-
     - name: Run Nightwatch tests
       run: npx nightwatch Tests/TS01-TC01-test-connexion.js
