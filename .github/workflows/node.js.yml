@@ -44,27 +44,25 @@ jobs:
 
       - name: Run test-connexion
         run: npx nightwatch Tests/TS01-TC01-test-connexion.js
-  
 
   Verification1:
-    - name: Test verification1
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Run test-cam
       run:  echo "google-chrome" && google-chrome --version
-
-  Verification2:
-    - name: Test verification2
-      run:  echo "chromedriver" && chromedriver --version
-  
-  Verification3:
-    - name: Test verification3
       run:  echo "npm" && npm --version
-
-  Verification4:
-    - name: Test verification4
       run:  echo "node" && node --version
-  
-  Verification5:
-    - name: Run Nightwatch tests
-      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
   
   test-connexion:
     needs: build
