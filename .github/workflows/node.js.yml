@@ -32,15 +32,9 @@ jobs:
       - name: Install chromedriver
         run: npm install chromedriver@110
 
-      - name: Check versions
-        run: |
-          ./node_modules/.bin/chromedriver --version
-          ./node_modules/.bin/nightwatch --version
-          /usr/bin/google-chrome --version
-
       - name: Start Xvfb
         run: Xvfb -ac :99 -screen 0 1280x1024x16 &
-        
+
       - name: Export display
         run: export DISPLAY=:99
 
