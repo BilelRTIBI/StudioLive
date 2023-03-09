@@ -32,18 +32,18 @@ jobs:
       run: npm install nightwatch
 
     - name: Install Google Chrome
-     
-      run:    sudo apt-get update 
-      run:    sudo apt-get install -y sudo wget
+      run: |
+              sudo apt-get update 
+              sudo apt-get install -y sudo wget
 
-      run:    sudo apt-get update 
-      run:    sudo apt-get install -y xvfb
+              sudo apt-get update 
+              sudo apt-get install -y xvfb
 
-      run:    sudo wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-      run:    sudo echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+              sudo wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+              sudo echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 
-      run:    sudo apt-get update 
-      run:    sudo apt-get --yes install google-chrome-stable
+              sudo apt-get update 
+              sudo apt-get --yes install google-chrome-stable
 
     - name: Install Chromedriver
       run:
