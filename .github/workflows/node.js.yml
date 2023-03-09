@@ -82,7 +82,7 @@ jobs:
       - name: Run test-connexion
         run: npx nightwatch Tests/TS01-TC01-test-connexion.js
   
-    test-connexion-2:
+  test-connexion-2:
     needs: build
     runs-on: ubuntu-latest
     strategy:
@@ -118,7 +118,6 @@ jobs:
 
       - name: Export display
         run: export DISPLAY=:99
-        
-      - name: Run test-connexion
+
+      - name: Run test-connexion-2
         run: npx nightwatch Tests/TS01-TC02-test-connexion.js
-    
