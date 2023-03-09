@@ -59,9 +59,11 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Run test-cam
+    - name: Run test1
       run:  echo "google-chrome" && google-chrome --version
+    - name: Run test2
       run:  echo "npm" && npm --version
+    - name: Run test3
       run:  echo "node" && node --version
   
   test-connexion:
