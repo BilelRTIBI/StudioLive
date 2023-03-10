@@ -16,6 +16,6 @@ module.exports = {
         .waitForElementVisible('.Settings__err-msg')
         .pause(3000)
         .end()
-
+        
     }
 }
