@@ -24,19 +24,12 @@ jobs:
         sudo apt-get --yes install google-chrome-stable
         npm install chromedriver@110
         npm install
+         ./node_modules/.bin/chromedriver --version
+        ./node_modules/.bin/nightwatch --version
+        /usr/bin/google-chrome --version
+        Xvfb -ac :99 -screen 0 1280x1024x16 &
+        export DISPLAY=:99
     - name: TS01-TC01-test-connexion
-      run: |
-        ./node_modules/.bin/chromedriver --version
-        ./node_modules/.bin/nightwatch --version
-        /usr/bin/google-chrome --version
-        Xvfb -ac :99 -screen 0 1280x1024x16 &
-        export DISPLAY=:99
-        npx nightwatch Tests/TS01-TC01-test-connexion.js
+      run: npx nightwatch Tests/TS01-TC01-test-connexion.js
     - name: TS01-TC02-test-connexion
-      run: |
-        ./node_modules/.bin/chromedriver --version
-        ./node_modules/.bin/nightwatch --version
-        /usr/bin/google-chrome --version
-        Xvfb -ac :99 -screen 0 1280x1024x16 &
-        export DISPLAY=:99
-        npx nightwatch Tests/TS01-TC02-test-connexion.js
+      run: npx nightwatch Tests/TS01-TC02-test-connexion.js
