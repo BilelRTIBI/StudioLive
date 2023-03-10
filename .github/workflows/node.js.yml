@@ -5,7 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-Build:
+
+jobs:
+  Build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,7 +31,7 @@ Build:
           npm install chromedriver@110
           Xvfb -ac :99 -screen 0 1280x1024x16 &
           export DISPLAY=:99
-TS01-TC01-test-connexion:
+  TS01-TC01-test-connexion:
     needs: Build
     runs-on: ubuntu-latest
     strategy:
@@ -55,7 +57,7 @@ TS01-TC01-test-connexion:
           Xvfb -ac :99 -screen 0 1280x1024x16 &
           export DISPLAY=:99
           npx nightwatch Tests/TS01-TC01-test-connexion.js
-TS01-TC02-test-connexion:
+  TS01-TC02-test-connexion:
     needs: Build
     runs-on: ubuntu-latest
     strategy:
@@ -81,7 +83,7 @@ TS01-TC02-test-connexion:
           Xvfb -ac :99 -screen 0 1280x1024x16 &
           export DISPLAY=:99
           npx nightwatch Tests/TS01-TC02-test-connexion.js
-TS01-TC03-test-connexion:
+  TS01-TC03-test-connexion:
     needs: Build
     runs-on: ubuntu-latest
     strategy:
